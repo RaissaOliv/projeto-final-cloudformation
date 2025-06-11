@@ -71,7 +71,7 @@ Resources:
           echo "Iniciando script UserData..."
           sudo apt update -y
           sudo apt upgrade -y
-          sudo apt install -y python3 python3-pip git curl wget -y
+          sudo apt install -y python3 python3-pip python3.12-venv git curl wget -y
 
           echo "Instalando RabbitMQ..."
           sudo apt install -y rabbitmq-server -y
@@ -81,13 +81,14 @@ Resources:
 
           echo "Clonando repositório do GitHub..."
           git clone https://github.com/RaissaOliv/projeto-final-cloudformation.git /home/ubuntu/tarefas-app
-          cd /home/ubuntu/tarefas-app
+          cd /home/ubuntu/tarefas-ap
+          chown -R ubuntu:ubuntu /home/ubuntu/tarefas-app
           echo "Repositório clonado para /home/ubuntu/tarefas-app"
 
           echo "Instalando dependências Python..."
           python3 -m venv /home/ubuntu/tarefas-app/venv
           /home/ubuntu/tarefas-app/venv/bin/pip install --upgrade pip
-          /home/ubuntu/tarefas-app/venv/bin/pip install grpcio grpcio-tools pika
+          /home/ubuntu/tarefas-app/venv/bin/pip install grpcio grpcio-tools pika boto3
 
           echo "Configurando RABBITMQ_HOST para localhost no tarefas_server.py..."
           sed -i 's/^RABBITMQ_HOST = .*/RABBITMQ_HOST = "localhost"/' /home/ubuntu/tarefas-app/tarefas_server.py
