@@ -147,6 +147,6 @@ projeto-final-cloudformation/
 
 ## Créditos
 
-Projeto adaptado para AWS Playground por [RaissaOliv](https://github.com/RaissaOliv).
+Projeto adaptado para AWS Playground por [ [RaissaOliv](https://github.com/RaissaOliv) | [Vini-Casanova](https://github.com/RaissaOliv) | Lucas Alves]
 
 ---
