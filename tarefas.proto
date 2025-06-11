@@ -1,0 +1,34 @@
+// tarefas.proto
+syntax = "proto3";
+
+package tarefas;
+
+// Mensagens
+message Tarefa {
+    string id = 1;
+    string titulo = 2;
+    string descricao = 3;
+    string status = 4; // Ex: PENDENTE, CONCLUIDA
+}
+
+message CriarTarefaRequest {
+    string titulo = 1;
+    string descricao = 2;
+}
+
+message TarefaResponse {
+    Tarefa tarefa = 1;
+}
+
+message ListarTarefasRequest {}
+
+message ListarTarefasResponse {
+    repeated Tarefa tarefas = 1;
+}
+
+
+// Serviço gRPC
+service TarefasService {
+    rpc CriarTarefa (CriarTarefaRequest) returns (TarefaResponse);
+    rpc ListarTarefas (ListarTarefasRequest) returns (ListarTarefasResponse);
+}
