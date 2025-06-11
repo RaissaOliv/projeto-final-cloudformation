@@ -85,7 +85,9 @@ Resources:
           echo "Repositório clonado para /home/ubuntu/tarefas-app"
 
           echo "Instalando dependências Python..."
-          sudo pip3 install grpcio grpcio-tools pika
+          python3 -m venv /home/ubuntu/tarefas-app/venv
+          /home/ubuntu/tarefas-app/venv/bin/pip install --upgrade pip
+          /home/ubuntu/tarefas-app/venv/bin/pip install grpcio grpcio-tools pika
 
           echo "Configurando RABBITMQ_HOST para localhost no tarefas_server.py..."
           sed -i 's/^RABBITMQ_HOST = .*/RABBITMQ_HOST = "localhost"/' /home/ubuntu/tarefas-app/tarefas_server.py
@@ -100,7 +102,7 @@ Resources:
           [Service]
           User=ubuntu
           WorkingDirectory=/home/ubuntu/tarefas-app
-          ExecStart=/usr/bin/python3 tarefas_server.py
+          ExecStart=/home/ubuntu/tarefas-app/venv/bin/python tarefas_server.py
           Restart=on-failure
           RestartSec=10
           StandardOutput=append:/var/log/tarefas_server.log
