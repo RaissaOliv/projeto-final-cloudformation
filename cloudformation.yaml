@@ -82,7 +82,7 @@ Resources:
 
           # ATENÇÃO: SUBSTITUA 'SEU_USUARIO' E 'SEU_REPOSITORIO' PELO SEU REPOSITÓRIO GITHUB
           echo "Clonando repositório do GitHub..."
-          git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git /home/ubuntu/tarefas-app
+          git clone https://github.com/RaissaOliv/projeto-final-cloudformation.git /home/ubuntu/tarefas-app
           cd /home/ubuntu/tarefas-app
           echo "Repositório clonado para /home/ubuntu/tarefas-app"
 
