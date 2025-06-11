@@ -59,7 +59,7 @@ Resources:
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
       KeyName: !Ref KeyName
-      ImageId: ami-000b79ebd8ab54031
+      ImageId: ami-0731becbf832f281e
       Tags:
         - Key: Name
           Value: TarefasServerInstance
