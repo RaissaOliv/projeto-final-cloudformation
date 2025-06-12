@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+import tarefas_pb2 as tarefas__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -22,3 +23,121 @@ if _version_not_supported:
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
+
+
+class TarefasServiceStub(object):
+    """Serviço gRPC
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.CriarTarefa = channel.unary_unary(
+                '/tarefas.TarefasService/CriarTarefa',
+                request_serializer=tarefas__pb2.CriarTarefaRequest.SerializeToString,
+                response_deserializer=tarefas__pb2.TarefaResponse.FromString,
+                _registered_method=True)
+        self.ListarTarefas = channel.unary_unary(
+                '/tarefas.TarefasService/ListarTarefas',
+                request_serializer=tarefas__pb2.ListarTarefasRequest.SerializeToString,
+                response_deserializer=tarefas__pb2.ListarTarefasResponse.FromString,
+                _registered_method=True)
+
+
+class TarefasServiceServicer(object):
+    """Serviço gRPC
+    """
+
+    def CriarTarefa(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListarTarefas(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_TarefasServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'CriarTarefa': grpc.unary_unary_rpc_method_handler(
+                    servicer.CriarTarefa,
+                    request_deserializer=tarefas__pb2.CriarTarefaRequest.FromString,
+                    response_serializer=tarefas__pb2.TarefaResponse.SerializeToString,
+            ),
+            'ListarTarefas': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListarTarefas,
+                    request_deserializer=tarefas__pb2.ListarTarefasRequest.FromString,
+                    response_serializer=tarefas__pb2.ListarTarefasResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'tarefas.TarefasService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('tarefas.TarefasService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class TarefasService(object):
+    """Serviço gRPC
+    """
+
+    @staticmethod
+    def CriarTarefa(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/tarefas.TarefasService/CriarTarefa',
+            tarefas__pb2.CriarTarefaRequest.SerializeToString,
+            tarefas__pb2.TarefaResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListarTarefas(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/tarefas.TarefasService/ListarTarefas',
+            tarefas__pb2.ListarTarefasRequest.SerializeToString,
+            tarefas__pb2.ListarTarefasResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
