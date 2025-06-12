@@ -1,6 +1,6 @@
-# Projeto Final CloudFormation - Servidor de Tarefas (gRPC + RabbitMQ + DynamoDB)
+# Projeto Final CloudFormation - Servidor de Tarefas (gRPC + RabbitMQ)
 
-Este projeto provisiona uma instância EC2 na AWS que executa um servidor gRPC para gerenciamento de tarefas, integra com RabbitMQ para eventos e utiliza DynamoDB para persistência. O provisionamento é feito via AWS CloudFormation.
+Este projeto provisiona uma instância EC2 na AWS que executa um servidor gRPC para gerenciamento de tarefas, integra com RabbitMQ para eventos e utiliza memória local para persistência. O provisionamento é feito via AWS CloudFormation.
 
 ---
 
@@ -22,7 +22,6 @@ Este projeto provisiona uma instância EC2 na AWS que executa um servidor gRPC p
 
 - **EC2**: Executa o servidor gRPC (`tarefas_server.py`) e o RabbitMQ.
 - **RabbitMQ**: Gerencia eventos de tarefas.
-- **DynamoDB**: Persistência das tarefas.
 - **CloudFormation**: Provisiona toda a infraestrutura.
 - **Cliente Python**: Interage via gRPC e consome eventos do RabbitMQ.
 
@@ -55,10 +54,6 @@ Este projeto provisiona uma instância EC2 na AWS que executa um servidor gRPC p
 4. **Aguarde a criação**  
    Ao final, anote os valores de `PublicIP` e `PublicDNS` nos Outputs.
 
-5. **(Opcional) Crie a tabela DynamoDB**  
-   No console AWS > DynamoDB > Criar tabela  
-   - Nome: `TarefasTable`
-   - Chave primária: `id` (String)
 
 ---
 
