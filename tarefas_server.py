@@ -1,19 +1,18 @@
-# tarefas_server.py
 import grpc
 import tarefas_pb2
 import tarefas_pb2_grpc
-import boto3
 import pika
 import uuid
 from concurrent import futures
+import threading # 
 
-# Configuração do DynamoDB
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1') # Use sua região
-table = dynamodb.Table('TarefasTable') # Nome da tabela que você vai criar no CF
-
-# Configuração do RabbitMQ
-RABBITMQ_HOST = 'YOUR_RABBITMQ_EC2_IP_OR_HOSTNAME' # Substitua pelo IP da EC2 do RabbitMQ
+# Configuração do RabbitMQ 
+RABBITMQ_HOST = 'localhost'
 RABBITMQ_QUEUE = 'tarefas_eventos'
+
+# In-memory storage for tasks
+tarefas_db = {}
+tarefas_lock = threading.Lock() # lock para proteger o acesso ao banco de dados em memória
 
 class TarefasService(tarefas_pb2_grpc.TarefasServiceServicer):
     def CriarTarefa(self, request, context):
@@ -24,7 +23,8 @@ class TarefasService(tarefas_pb2_grpc.TarefasServiceServicer):
             'descricao': request.descricao,
             'status': 'PENDENTE'
         }
-        table.put_item(Item=item)
+        with tarefas_lock: #dar lock antes de modificar o banco de dados
+            tarefas_db[tarefa_id] = item
 
         # Publicar evento no RabbitMQ
         try:
@@ -41,11 +41,9 @@ class TarefasService(tarefas_pb2_grpc.TarefasServiceServicer):
         return tarefas_pb2.TarefaResponse(tarefa=tarefas_pb2.Tarefa(**item))
 
     def ListarTarefas(self, request, context):
-        response = table.scan()
-        tarefas = [tarefas_pb2.Tarefa(**item) for item in response['Items']]
+        with tarefas_lock: # dar lock para ler o banco de dados
+            tarefas = [tarefas_pb2.Tarefa(**item) for item in tarefas_db.values()]
         return tarefas_pb2.ListarTarefasResponse(tarefas=tarefas)
-
-   
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
